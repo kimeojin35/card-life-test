@@ -1,0 +1,10 @@
+import { Header, PrimaryButton } from './Primitives'
+import Icon from './Icons'
+import { PAYMENT_TOTAL, PAYMENT_STEP, sumAmounts, canCompletePayment, formatWon } from '../utils/splitPayment'
+export default function SplitScreen({ amounts, onAdjust, onBack, onComplete }) {
+  const total = sumAmounts(amounts)
+  const difference = PAYMENT_TOTAL - total
+  const valid = canCompletePayment(amounts)
+  return <><Header onBack={onBack} label="SPLIT PAYMENT" right="DEMO" /><section className="split-body screen-enter"><span className="eyebrow">직접 나눠보세요</span><h1 tabIndex={-1} data-screen-title>결제는 한 번,<br />카드는 원하는 대로.</h1><p className="question-hint">각 카드에 결제할 금액을 배분해보세요.</p><div className="payment-total"><span>총 결제금액</span><strong>100,000<small>원</small></strong></div><div className="allocation-list">{amounts.map((amount, i) => <section className="allocation-card" key={i} aria-label={`카드 ${'ABC'[i]}`}><div className="allocation-heading"><span className={`tiny-card tiny-card-${i}`} aria-hidden="true">{'ABC'[i]}</span><h2>카드 {'ABC'[i]}</h2><span>가상 카드</span></div><div className="allocation-controls"><button className="adjust-button" onClick={() => onAdjust(i, -1)} disabled={amount === 0} aria-label={`카드 ${'ABC'[i]} 10,000원 줄이기`}><Icon name="minus" size={16} /><span>10,000</span></button><strong aria-label={`카드 ${'ABC'[i]} 배분 금액`}>{formatWon(amount)}<small>원</small></strong><button className="adjust-button" onClick={() => onAdjust(i, 1)} disabled={amount >= PAYMENT_TOTAL} aria-label={`카드 ${'ABC'[i]} 10,000원 늘리기`}><Icon name="plus" size={16} /><span>{formatWon(PAYMENT_STEP)}</span></button></div></section>)}</div><p className="demo-caption">실제 결제가 아닌 서비스 이해를 위한 체험입니다.</p></section><div className="split-bottom"><div className="allocation-total" aria-live="polite"><span>현재 배분 금액</span><div><strong>{formatWon(total)}</strong> / 100,000원</div><p className={valid ? 'balance-message valid' : 'balance-message'}>{valid ? '금액이 딱 맞아요! 나눠 결제할 준비 완료.' : `${formatWon(Math.abs(difference))}원을 더 ${difference > 0 ? '배분해' : '줄여'}주세요.`}</p></div><PrimaryButton disabled={!valid} onClick={onComplete}>이렇게 나눠 결제하기</PrimaryButton></div></>
+}
+

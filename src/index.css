@@ -1,0 +1,36 @@
+/* UI palette derived from the supplied coral logo; not an official brand specification. */
+:root {
+  --color-primary: #f09276;
+  --color-primary-hover: #e9896d;
+  --color-primary-soft: #fff8f4;
+  --color-primary-soft-hover: #ffefe6;
+  --color-primary-soft-active: #ffe7db;
+  --color-primary-light: var(--color-primary-soft);
+  --color-background: #fcfbfa;
+  --color-surface: #ffffff;
+  --color-text: #171f2e;
+  --color-text-secondary: #636b79;
+  --color-border: #eee9e5;
+  --color-accent-soft: #fce5db;
+  --color-on-dark: #ffffff;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+  color: var(--color-text);
+  background: var(--color-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:disabled { cursor: not-allowed; }
+button:focus-visible { outline: 3px solid var(--color-text); outline-offset: 4px; }
+[data-screen-title]:focus { outline: none; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3, button, p, li { word-break: keep-all; overflow-wrap: anywhere; }
+svg { flex-shrink: 0; vertical-align: middle; }
+::selection { background: var(--color-primary); color: var(--color-text); }
+
+
+
