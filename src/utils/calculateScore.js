@@ -8,3 +8,13 @@ export function calculateScore(answers) {
   validateAnswers(answers)
   return Math.round(scores.selection[answers[1]] * 0.35 + scores.tracking[answers[2]] * 0.4 + scores.missed[answers[3]] * 0.25)
 }
+
+// Expose the existing unweighted values for the result UI.
+export function getSubscores(answers) {
+  validateAnswers(answers)
+  return {
+    selection: scores.selection[answers[1]],
+    tracking: scores.tracking[answers[2]],
+    missed: scores.missed[answers[3]],
+  }
+}

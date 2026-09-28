@@ -14,6 +14,7 @@ function App() {
   const [questionIndex, setQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState(Array(5).fill(null))
   const [pending, setPending] = useState(false)
+  const [leaving, setLeaving] = useState(false)
   const [amounts, setAmounts] = useState(initialAmounts)
   const transitionTimer = useRef(null)
   const transitionLock = useRef(false)
@@ -33,18 +34,24 @@ function App() {
     clearTimeout(transitionTimer.current)
     transitionLock.current = false
     setPending(false)
+    setLeaving(false)
   }
   function selectAnswer(value) {
     if (transitionLock.current) return
     transitionLock.current = true
     setPending(true)
     setAnswers(previous => previous.map((answer, i) => i === questionIndex ? value : answer))
+    // Hold the selection before a short exit animation so the answer is easy to confirm.
     transitionTimer.current = setTimeout(() => {
-      transitionLock.current = false
-      setPending(false)
-      if (questionIndex < 4) setQuestionIndex(questionIndex + 1)
-      else setScreen('analysis')
-    }, 250)
+      setLeaving(true)
+      transitionTimer.current = setTimeout(() => {
+        transitionLock.current = false
+        setPending(false)
+        setLeaving(false)
+        if (questionIndex < 4) setQuestionIndex(questionIndex + 1)
+        else setScreen('analysis')
+      }, 220)
+    }, 600)
   }
   function backQuestion() {
     cancelTransition()
@@ -61,7 +68,7 @@ function App() {
 
   return <div className="site-layout"><aside className="desktop-note"><BrandLogo className="desktop-logo" /><p>내 카드생활을<br />알아가는 30초.</p><span className="desktop-note-line" /><small>YOUR CARDS.<br />YOUR BETTER EVERYDAY.</small></aside><main className={`app screen-${screen}`}>
     {screen === 'start' && <><Header branded right="CARD LIFE TEST" /><section className="start-body screen-enter"><span className="pill"><span /> 내 카드생활 진단소</span><h1 tabIndex={-1} data-screen-title>내 카드생활 점수는<br /><span className="highlight">몇 점?</span></h1><p className="start-subtitle">30초 만에 알아보는<br />나의 카드생활 유형</p><CardArt /><p className="start-description">카드는 잘 쓰는 것보다<br /><strong>잘 관리하는 게 더 중요하니까.</strong></p></section><div className="start-bottom"><PrimaryButton onClick={() => setScreen('question')}>진단 시작하기</PrimaryButton><p className="demo-caption">총 5문항 <span>·</span> 약 30초 소요</p></div><footer className="quiet-footer">CANDYPAY · YOUR EVERYDAY, BETTER.</footer></>}
-    {screen === 'question' && <QuestionScreen index={questionIndex} answer={answers[questionIndex]} pending={pending} onSelect={selectAnswer} onBack={backQuestion} />}
+    {screen === 'question' && <QuestionScreen index={questionIndex} answer={answers[questionIndex]} pending={pending} leaving={leaving} onSelect={selectAnswer} onBack={backQuestion} />}
     {screen === 'analysis' && <><Header label="CARD LIFE TEST" /><section className="analysis-body" aria-live="polite"><div className="analysis-symbol"><Icon name="sparkle" size={46} /></div><span className="eyebrow">A MOMENT FOR YOUR CARDS</span><h1 tabIndex={-1} data-screen-title>카드생활을<br />분석하고 있어요</h1><p>나의 습관 속에서 힌트를 찾는 중이에요.</p><ul className="analysis-checks">{['카드 사용 습관', '실적 관리', '혜택 활용'].map((text, i) => <li key={text} style={{ '--delay': `${(i + 1) * 300}ms` }}><span>{text}</span><Icon name="check" /></li>)}</ul></section></>}
     {screen === 'result' && <ResultScreen answers={answers} onBack={() => { setQuestionIndex(4); setScreen('question') }} onExperience={() => setScreen('split')} onRestart={restart} />}
     {screen === 'split' && <SplitScreen amounts={amounts} onBack={() => setScreen('result')} onAdjust={(index, direction) => setAmounts(previous => adjustAmount(previous, index, direction))} onComplete={() => { if (canCompletePayment(amounts)) setScreen('success') }} />}
@@ -69,6 +76,7 @@ function App() {
   </main><span className="desktop-edition">CANDYPAY EXPERIENCE / 01</span></div>
 }
 export default App
+
 
 
 

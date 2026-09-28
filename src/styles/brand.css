@@ -151,3 +151,36 @@
   background: var(--color-start-cta);
   filter: brightness(.97);
 }
+
+/* Give visitors time to recognise their choice before moving on. */
+.question-body.screen-enter { animation: question-in 360ms cubic-bezier(.2,.7,.2,1) both; }
+.question-body.is-leaving { animation: question-out 220ms ease-in both; pointer-events: none; }
+.question-body .answer-button { transition: background 180ms, border-color 180ms, opacity 180ms, box-shadow 180ms, transform 180ms; }
+.question-body.is-pending .answer-button:not(.selected) { opacity: .6; }
+.question-body.is-pending .answer-button.selected { box-shadow: 0 0 0 3px var(--color-primary-soft-hover); transform: translateY(-2px); }
+.question-body.is-pending .answer-button.selected .answer-check { animation: answer-confirm 240ms ease-out both; }
+.question-body.is-pending .selection-note { color: var(--color-text); font-weight: 650; }
+@keyframes question-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes question-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
+@keyframes answer-confirm { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .question-body.screen-enter, .question-body.is-leaving, .question-body.is-pending .answer-check { animation: none; }
+  .question-body.is-pending .answer-button.selected { transform: none; }
+}
+
+/* Existing answer scores, shown with the shared brand palette. */
+.score-summary { margin-bottom: 24px; }
+.score-summary > .eyebrow { font-size: 11px; letter-spacing: .5px; }
+.score-explanation { margin-top: 8px; font-size: 12px; line-height: 1.8; color: var(--color-text-secondary); }
+.score-indicators { display: grid; gap: 13px; margin-top: 20px; }
+.score-indicator { min-width: 0; }
+.score-indicator-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; font-size: 12px; white-space: nowrap; }
+.score-indicator-label strong { font-weight: 700; font-variant-numeric: tabular-nums; }
+.score-indicator-track { height: 7px; border-radius: 6px; background: var(--color-border); overflow: hidden; }
+.score-indicator-track > span { display: block; height: 100%; border-radius: inherit; background: var(--color-primary); }
+
+/* Result-page demo video preserves its original proportions on every screen. */
+.result-video-section { min-width: 0; margin-top: 4px; }
+.result-demo-video { display: block; width: 100%; height: auto; border-radius: 22px; background: var(--color-text); }
+.result-video-section .homepage-link { margin-top: 16px; }
+.result-video-section .demo-caption { margin-top: 10px; }
