@@ -5,7 +5,9 @@ import { PNG } from 'pngjs'
 import jsQR from 'jsqr'
 import { appStores } from '../src/data/appStores.js'
 
-test('both shipped QR images decode to the exact installation URLs', () => {
+test('single download QR decodes to the official unified link', () => {
+  assert.equal(appStores.length, 1)
+  assert.equal(appStores[0].url, 'https://www.candypay.co.kr/download')
   for (const store of appStores) {
     const png = PNG.sync.read(readFileSync(new URL(`../public/qr/${store.id}.png`, import.meta.url)))
     const decoded = jsQR(new Uint8ClampedArray(png.data), png.width, png.height)
