@@ -209,3 +209,9 @@ body:has(.download-dialog[open]) { overflow: hidden; }
 .download-store-link:hover { background: var(--color-primary-hover); }
 .download-store-link:focus-visible { outline: 2px solid var(--color-text); outline-offset: 3px; }
 @media(max-width: 479px) { .download-content { padding: 20px; } .download-stores { grid-template-columns: 1fr; } }
+
+/* CARD PORTFOLIO REPORT editorial hierarchy. */
+.start-body h1.portfolio-title { font-size: clamp(32px, 9vw, 43px); line-height: 1.12; letter-spacing: -1.3px; margin-top: 20px; }
+.screen-start .start-subtitle { font-size: 15px; font-weight: 600; letter-spacing: -.5px; }
+.report-caption { font-size: 9px; font-weight: 650; letter-spacing: .5px; color: var(--color-text-secondary); padding-right: 65px; margin-bottom: 14px; }
+.topbar-label { min-width: 0; font-size: 9px; letter-spacing: .5px; }

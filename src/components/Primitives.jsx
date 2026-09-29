@@ -1,7 +1,7 @@
 import Icon from './Icons'
 import BrandLogo from './BrandLogo'
 
-export function Header({ onBack, label = 'CARD LIFE CLINIC', right, branded = false }) {
+export function Header({ onBack, label = 'CARD PORTFOLIO REPORT', right, branded = false }) {
   return (
     <header className="topbar">
       {onBack && <button className="icon-button" onClick={onBack} aria-label="뒤로가기"><Icon name="back" /></button>}
@@ -22,7 +22,7 @@ export function CardArt() {
         <div className="card-art-top"><span>MY CARD<span className="card-art-caption">A BETTER WAY TO PAY</span></span><Icon name="sparkle" size={25} /></div>
         <span className="card-chip" />
         <div className="card-digits">•••• &nbsp; •••• &nbsp; 0824</div>
-        <div className="card-art-bottom"><span>CARD LIFE, SIMPLIFIED.</span><span className="card-circles">○○</span></div>
+        <div className="card-art-bottom"><span>YOUR CARD PORTFOLIO.</span><span className="card-circles">○○</span></div>
       </div>
       <span className="floating-note"><Icon name="check" size={16} /> 내 카드, 더 똑똑하게</span>
     </div>
